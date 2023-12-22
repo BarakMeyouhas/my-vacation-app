@@ -1,24 +1,24 @@
 // assets
-import { DashboardOutlined } from '@ant-design/icons';
+import { CalendarOutlined } from '@ant-design/icons';
 
 // icons
 const icons = {
-  DashboardOutlined
+  CalendarOutlined
 };
 
 // ==============================|| MENU ITEMS - DASHBOARD ||============================== //
 
 const dashboard = {
   id: 'group-dashboard',
-  title: 'Navigation',
+  // title: 'Navigation',
   type: 'group',
   children: [
     {
       id: 'dashboard',
-      title: 'Dashboard',
+      title: 'Vacations',
       type: 'item',
       url: '/allVacations',
-      icon: icons.DashboardOutlined,
+      icon: icons.CalendarOutlined,
       breadcrumbs: false
     }
   ]

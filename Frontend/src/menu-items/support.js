@@ -1,9 +1,9 @@
 // assets
-import { ChromeOutlined, QuestionOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined, QuestionOutlined } from '@ant-design/icons';
 
 // icons
 const icons = {
-  ChromeOutlined,
+  InfoCircleOutlined,
   QuestionOutlined
 };
 
@@ -11,25 +11,25 @@ const icons = {
 
 const support = {
   id: 'support',
-  title: 'Support',
+  // title: 'Support',
   type: 'group',
   children: [
     {
-      id: 'sample-page',
-      title: 'Sample Page',
+      id: 'about-the-app',
+      title: 'About the app',
       type: 'item',
-      url: '/sample-page',
-      icon: icons.ChromeOutlined
-    },
-    {
-      id: 'documentation',
-      title: 'Documentation',
-      type: 'item',
-      url: 'https://codedthemes.gitbook.io/mantis/',
-      icon: icons.QuestionOutlined,
-      external: true,
-      target: true
+      url: '/About',
+      icon: icons.InfoCircleOutlined
     }
+    // {
+    //   id: 'documentation',
+    //   title: 'Documentation',
+    //   type: 'item',
+    //   url: 'https://codedthemes.gitbook.io/mantis/',
+    //   icon: icons.QuestionOutlined,
+    //   external: true,
+    //   target: true
+    // }
   ]
 };
 

@@ -1,23 +1,10 @@
 import PropTypes from 'prop-types';
 import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import {
-  Avatar,
-  Box,
-  ButtonBase,
-  CardContent,
-  ClickAwayListener,
-  Grid,
-  IconButton,
-  Paper,
-  Popper,
-  Stack,
-  Tab,
-  Tabs,
-  Typography
-} from '@mui/material';
+import { Avatar, Box, ButtonBase, CardContent, ClickAwayListener, Grid, IconButton, Paper, Popper, Stack, Typography } from '@mui/material';
 
 // project import
 import MainCard from 'components/MainCard';
@@ -26,8 +13,7 @@ import ProfileTab from './ProfileTab';
 import SettingTab from './SettingTab';
 
 // assets
-import avatar1 from 'assets/images/users/avatar-1.png';
-import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+import { LogoutOutlined } from '@ant-design/icons';
 
 // tab panel wrapper
 function TabPanel({ children, value, index, ...other }) {
@@ -44,20 +30,33 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired
 };
 
-function a11yProps(index) {
-  return {
-    id: `profile-tab-${index}`,
-    'aria-controls': `profile-tabpanel-${index}`
-  };
-}
+// function a11yProps(index) {
+//   return {
+//     id: `profile-tab-${index}`,
+//     'aria-controls': `profile-tabpanel-${index}`
+//   };
+// }
 
 // ==============================|| HEADER CONTENT - PROFILE ||============================== //
 
 const Profile = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
+
+  // Function to get the first letter of the user's name
+  const getInitials = (name) => {
+    return name ? name[0].toUpperCase() : '';
+  };
+
+  const userName = localStorage.getItem('user_name');
 
   const handleLogout = async () => {
-    // logout
+    localStorage.removeItem('user');
+    localStorage.removeItem('user_id');
+    localStorage.removeItem('user_password');
+    localStorage.removeItem('user_email');
+    localStorage.removeItem('user_name');
+    navigate('/login');
   };
 
   const anchorRef = useRef(null);
@@ -71,12 +70,6 @@ const Profile = () => {
       return;
     }
     setOpen(false);
-  };
-
-  const [value, setValue] = useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
   };
 
   const iconBackColorOpen = 'grey.300';
@@ -97,8 +90,8 @@ const Profile = () => {
         onClick={handleToggle}
       >
         <Stack direction="row" spacing={2} alignItems="center" sx={{ p: 0.5 }}>
-          <Avatar alt="profile user" src={avatar1} sx={{ width: 32, height: 32 }} />
-          <Typography variant="subtitle1">John Doe</Typography>
+          <Avatar>{getInitials(userName)}</Avatar>
+          <Typography variant="subtitle1">{userName}</Typography>
         </Stack>
       </ButtonBase>
       <Popper
@@ -139,12 +132,12 @@ const Profile = () => {
                       <Grid container justifyContent="space-between" alignItems="center">
                         <Grid item>
                           <Stack direction="row" spacing={1.25} alignItems="center">
-                            <Avatar alt="profile user" src={avatar1} sx={{ width: 32, height: 32 }} />
+                            <Avatar>{getInitials(userName)}</Avatar>
                             <Stack>
-                              <Typography variant="h6">John Doe</Typography>
-                              <Typography variant="body2" color="textSecondary">
+                              <Typography variant="h6">{userName}</Typography>
+                              {/* <Typography variant="body2" color="textSecondary">
                                 UI/UX Designer
-                              </Typography>
+                              </Typography> */}
                             </Stack>
                           </Stack>
                         </Grid>
@@ -158,7 +151,7 @@ const Profile = () => {
                     {open && (
                       <>
                         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                          <Tabs variant="fullWidth" value={value} onChange={handleChange} aria-label="profile tabs">
+                          {/* <Tabs variant="fullWidth" value={value} onChange={handleChange} aria-label="profile tabs">
                             <Tab
                               sx={{
                                 display: 'flex',
@@ -183,12 +176,12 @@ const Profile = () => {
                               label="Setting"
                               {...a11yProps(1)}
                             />
-                          </Tabs>
+                          </Tabs> */}
                         </Box>
-                        <TabPanel value={value} index={0} dir={theme.direction}>
+                        <TabPanel index={0} dir={theme.direction}>
                           <ProfileTab handleLogout={handleLogout} />
                         </TabPanel>
-                        <TabPanel value={value} index={1} dir={theme.direction}>
+                        <TabPanel index={1} dir={theme.direction}>
                           <SettingTab />
                         </TabPanel>
                       </>

@@ -1,6 +1,6 @@
 import { Link as RouterLink } from 'react-router-dom';
 import axios from 'axios';
-import React from 'react';
+import { useEffect, useState } from 'react';
 
 // material-ui
 import {
@@ -34,13 +34,22 @@ import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const AuthLogin = () => {
-  const [checked, setChecked] = React.useState(false);
+  const [checked, setChecked] = useState(false);
   const navigate = useNavigate();
-  const [user, setUser] = React.useState({
+  const [user, setUser] = useState({
     user_email: '',
     password: ''
   });
 
+  useEffect(() => {
+    console.log('Component mounted');
+    const storedUser = localStorage.getItem('user');
+    const storedUserName = localStorage.getItem('user_name');
+    if (storedUser && storedUserName) {
+      console.log('Navigating to allVacations');
+      navigate('/allVacations');
+    }
+  }, [navigate]);
 
   const handleInputChange = (event) => {
     const { name, value, type } = event.target;
@@ -52,21 +61,25 @@ const AuthLogin = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     axios
       .post('http://localhost:4000/api/v1/user/login', user)
       .then((response) => {
         const userData = response.data.loginSuccessful;
 
         if (userData.userExists) {
-          if (userData.user_email === 'admin1@gmail.com') {
-            navigate('/adminAllVacations', { state: { userId: userData.user_id } });
-          } else {
-            navigate('/allVacations', { state: { userId: userData.user_id } });
-          }
-
           // Save user information to local storage only if "Keep me signed in" is checked
           if (checked) {
             localStorage.setItem('user', JSON.stringify(userData));
+            localStorage.setItem('user_name', userData.user_name);
+            localStorage.setItem('user_email', userData.user_email);
+            localStorage.setItem('user_id', userData.user_id);
+          }
+
+          if (userData.user_email === 'admin1@gmail.com') {
+            navigate('/adminAllVacations');
+          } else {
+            navigate('/allVacations');
           }
         } else {
           alert('This user is not registered. Please register to enter the website.');
@@ -77,7 +90,7 @@ const AuthLogin = () => {
       });
   };
 
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };

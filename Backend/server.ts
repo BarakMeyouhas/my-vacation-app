@@ -5,11 +5,7 @@ import express from "express";
 import fileUpload from "express-fileupload";
 import config from "./Utils/Config";
 import ErrorHandler from "./MiddleWare/route-not-found";
-import router from "./Routes/SimpleRouter";
-import carRouter from "./Routes/CarRouter";
-import songRouter from "./Routes/SongRoute";
-import gameRouter from "./Routes/GameRouter";
-import teamsRouter from "./Routes/teamsRouter";
+
 import VacationRouter from "./Routes/VacationRouter";
 
 //create server
@@ -30,30 +26,20 @@ server.use(express.static("upload"));
 server.use(fileUpload({ createParentPath: true }));
 
 //using routes => localhost:4000/api/v1/test/checkOK
-server.use("/api/v1/test", router);
-server.use("/api/v1/car", carRouter);
-server.use("/api/v1/songs", songRouter);
-server.use("/api/v1/games", gameRouter);
-server.use("/api/v1/teams", teamsRouter);
-server.use("/api/v1/meetings", teamsRouter);
+
 server.use("/api/v1/user", VacationRouter);
 server.use("/api/v1/admin", VacationRouter);
-
-
-
-
-
 
 //handle errors(Route Not Found);
 server.use("*", ErrorHandler);
 
 //start the server
 server.listen(config.webPort, () => {
-    console.log(`listing on http://localhost:${config.webPort}`);
-    console.log(
-        `for testing use the path http://localhost:${config.webPort}/api/v1/test/checkOK`
-    );
-    console.log(
-        `for testing use the path http://localhost:${config.webPort}/api/v1/test/checkBad`
-    );
+  console.log(`listing on http://localhost:${config.webPort}`);
+  console.log(
+    `for testing use the path http://localhost:${config.webPort}/api/v1/test/checkOK`
+  );
+  console.log(
+    `for testing use the path http://localhost:${config.webPort}/api/v1/test/checkBad`
+  );
 });

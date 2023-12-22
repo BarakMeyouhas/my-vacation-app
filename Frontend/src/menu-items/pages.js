@@ -8,36 +8,28 @@ const icons = {
 };
 
 const handleLogout = () => {
-  // Remove user information from local storage
   localStorage.removeItem('user');
-  // Add any additional logout logic you may need, such as redirecting to the login page
-  // For example, you can use the 'navigate' function from 'react-router-dom'
-  // navigate('/login'); // Uncomment this line if you are using react-router-dom
+  localStorage.removeItem('user_id');
+  localStorage.removeItem('user_password');
+  localStorage.removeItem('user_email');
+  localStorage.removeItem('user_name');
 };
 
 // ==============================|| MENU ITEMS - EXTRA PAGES ||============================== //
 
 const pages = {
   id: 'authentication',
-  title: 'Authentication',
+  // title: 'Authentication',
   type: 'group',
   children: [
     {
-      id: 'register1',
-      title: 'Register',
-      type: 'item',
-      url: '/register',
-      icon: icons.ProfileOutlined,
-      target: true
-    },
-    {
-      id: 'logout1',
+      id: 'logout',
       title: 'Logout',
       type: 'item',
       url: '/login',
       icon: icons.LogoutOutlined,
-      target: true,
-      onClick: handleLogout() // Add this line to call handleLogout when the item is clicked
+      target: '_self', // Change target to '_self'
+      onClick: handleLogout(), // Pass the function reference without invoking it
     }
   ]
 };
