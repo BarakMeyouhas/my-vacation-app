@@ -1,45 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
 import axios from 'axios';
-import { Card, CardMedia, CardContent, TextField, Button } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Card, CardContent, TextField, Button, Container, Grid, CardMedia, Typography } from '@mui/material';
 
 const AddVacation = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const searchParams = new URLSearchParams(location.search);
-  const vacationId = parseInt(searchParams.get('params'), 10);
-  const [vacationDetails, setVacationDetails] = useState(null);
-  const [formValues, setFormValues] = useState({
+  const [vacation, setVacation] = useState({
     destination: '',
     description: '',
     start: '',
     end: '',
-    price: 0
+    price: '',
+    img: ''
   });
-
-  const fetchVacationDetails = async () => {
-    try {
-      const response = await axios.get(`http://localhost:4000/api/v1/user/vacationById/${vacationId}`);
-      setVacationDetails(response.data[0]);
-      setFormValues({
-        destination: response.data[0].destination,
-        description: response.data[0].description,
-        start: response.data[0].start.split('T')[0],
-        end: response.data[0].end.split('T')[0],
-        price: response.data[0].price
-      });
-      console.log(response.data);
-    } catch (error) {
-      console.error('Error fetching vacation details:', error);
-    }
-  };
-
-  useEffect(() => {
-    if (!isNaN(vacationId)) {
-      fetchVacationDetails();
-    }
-  }, [vacationId]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -56,128 +27,156 @@ const AddVacation = () => {
 
     if (name === 'start') {
       // Compare start and end dates
-      const endDate = formValues.end;
+      const endDate = vacation.end;
       if (endDate && value > endDate) {
         // Reset the end date if it's earlier than the new start date
-        setFormValues((prevValues) => ({
-          ...prevValues,
+        setVacation((prevVacation) => ({
+          ...prevVacation,
           end: ''
         }));
       }
     } else if (name === 'end') {
       // Compare start and end dates
-      const startDate = formValues.start;
+      const startDate = vacation.start;
       if (startDate && value < startDate) {
         // Reset the start date if it's later than the new end date
-        setFormValues((prevValues) => ({
-          ...prevValues,
+        setVacation((prevVacation) => ({
+          ...prevVacation,
           start: ''
         }));
       }
     }
 
-    setFormValues((prevValues) => ({
-      ...prevValues,
+    setVacation((prevVacation) => ({
+      ...prevVacation,
       [name]: sanitizedValue
     }));
   };
 
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
-    if (new Date(formValues.end) < new Date(formValues.start)) {
-      alert('End date cannot be earlier than the start date');
-
-      return;
-    }
-
-    try {
-      await axios.put(`http://localhost:4000/api/v1/user/updateVacation/${vacationId}`, {
-        ...formValues
+    axios
+      .post('http://localhost:4000/api/v1/admin/addVacation', vacation)
+      .then((response) => {
+        console.log('Vacation added successfully:', response.data);
+      })
+      .catch((error) => {
+        console.log('Failed to add vacation:', error);
       });
-      await fetchVacationDetails();
-      navigate('/adminAllVacations');
-    } catch (error) {
-      console.error('Error updating vacation:', error);
-    }
   };
-
-  if (!vacationDetails) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <>
-      <Card sx={{ maxWidth: 600, margin: 'auto' }}>
-        <CardMedia component="img" alt={vacationDetails.destination} height="300" image={vacationDetails.img} />
-        <CardContent>
-          <form onSubmit={handleFormSubmit}>
-            <div>
-              <TextField
-                name="destination"
-                label="Destination"
-                variant="outlined"
-                fullWidth
-                value={formValues.destination}
-                onChange={handleInputChange}
-              />
-              <TextField
-                name="description"
-                label="Description"
-                variant="outlined"
-                multiline
-                rows={3}
-                fullWidth
-                value={formValues.description}
-                onChange={handleInputChange}
-              />
-              <TextField
-                name="start"
-                type="date"
-                value={formValues.start}
-                onChange={handleInputChange}
-                label="Start Date"
-                variant="outlined"
-                required
-                fullWidth
-                margin="normal"
-                InputLabelProps={{
-                  shrink: true
-                }}
-              />
-              <TextField
-                name="end"
-                type="date"
-                value={formValues.end}
-                onChange={handleInputChange}
-                label="End Date"
-                variant="outlined"
-                required
-                fullWidth
-                margin="normal"
-                InputLabelProps={{
-                  shrink: true
-                }}
-                inputProps={{
-                  min: formValues.start // Restrict earlier dates than start date
-                }}
-              />
-              <TextField
-                name="price"
-                label="Price"
-                variant="outlined"
-                type="number"
-                fullWidth
-                value={formValues.price}
-                onChange={handleInputChange}
-              />
-              <Button type="submit" variant="contained" color="primary">
-                Update Vacation
-              </Button>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
+      <Container>
+        <Grid item xs={12} sm={6} md={4} sx={{ justifyContent: 'center' }}>
+          <Card id="form" sx={{ maxWidth: 600, margin: 'auto', marginTop: 2, marginLeft: 2 }}>
+            <CardContent>
+              <form onSubmit={handleSubmit}>
+                <div>
+                  <TextField
+                    type="text"
+                    name="destination"
+                    value={vacation.destination}
+                    onChange={handleInputChange}
+                    label="Destination"
+                    variant="outlined"
+                    required
+                    fullWidth
+                    margin="normal"
+                  />
+                  <TextField
+                    type="text"
+                    name="description"
+                    value={vacation.description}
+                    onChange={handleInputChange}
+                    label="Description"
+                    variant="outlined"
+                    required
+                    fullWidth
+                    margin="normal"
+                  />
+                  <TextField
+                    name="start"
+                    type="date"
+                    value={vacation.start}
+                    onChange={handleInputChange}
+                    onBlur={handleInputChange}
+                    label="Start Date"
+                    variant="outlined"
+                    required
+                    fullWidth
+                    margin="normal"
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                    inputProps={{
+                      min: new Date().toISOString().split('T')[0] // Restrict past dates
+                    }}
+                  />
+                  <TextField
+                    name="end"
+                    type="date"
+                    value={vacation.end}
+                    onChange={handleInputChange}
+                    onBlur={handleInputChange}
+                    label="End Date"
+                    variant="outlined"
+                    required
+                    fullWidth
+                    margin="normal"
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                    inputProps={{
+                      min: vacation.start // Restrict earlier dates than start date
+                    }}
+                  />
+                  <TextField
+                    type="number"
+                    name="price"
+                    value={vacation.price}
+                    onChange={handleInputChange}
+                    label="Price"
+                    variant="outlined"
+                    required
+                    fullWidth
+                    margin="normal"
+                  />
+                  <TextField
+                    type="text"
+                    name="img"
+                    value={vacation.img}
+                    onChange={handleInputChange}
+                    label="Image URL"
+                    variant="outlined"
+                    required
+                    fullWidth
+                    margin="normal"
+                  />
+                  <Button type="submit" variant="contained" color="primary">
+                    Update Vacation
+                  </Button>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
+
+          <Card id="vacation" sx={{ maxWidth: 600, margin: 'auto', marginTop: 2, marginLeft: 2 }}>
+            <CardMedia component="img" alt={vacation.destination} height="300" image={vacation.img} />
+            <CardContent>
+              <div>
+                <Typography variant="h5">{vacation.destination}</Typography>
+                <Typography variant="body1">{vacation.description}</Typography>
+                <Typography variant="subtitle1">
+                  Start: {vacation.start} | End: {vacation.end}
+                </Typography>
+                <Typography variant="h6">Price: ${vacation.price}</Typography>
+              </div>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Container>
     </>
   );
 };
