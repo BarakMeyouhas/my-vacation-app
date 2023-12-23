@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { Card, CardMedia, CardContent, TextField, Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const EditVacation = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const searchParams = new URLSearchParams(location.search);
   const vacationId = parseInt(searchParams.get('params'), 10);
   const [vacationDetails, setVacationDetails] = useState(null);
@@ -83,21 +85,20 @@ const EditVacation = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    // Check if the end date is earlier than the start date
     if (new Date(formValues.end) < new Date(formValues.start)) {
-      console.error('End date cannot be earlier than the start date');
-      // You may want to display an error message or handle it accordingly
+      alert('End date cannot be earlier than the start date');
+
       return;
     }
 
     try {
-      // Perform the update with formValues
       await axios.put(`http://localhost:4000/api/v1/user/updateVacation/${vacationId}`, {
         ...formValues
       });
 
       // Fetch and update vacation details again after the update
       await fetchVacationDetails();
+      navigate('/adminAllVacations');
     } catch (error) {
       console.error('Error updating vacation:', error);
     }
@@ -109,7 +110,7 @@ const EditVacation = () => {
 
   return (
     <>
-      <Card sx={{ maxWidth: 600, margin: 'auto', marginTop: 2, marginLeft: 2 }}>
+      <Card sx={{ maxWidth: 600, margin: 'auto' }}>
         <CardMedia component="img" alt={vacationDetails.destination} height="300" image={vacationDetails.img} />
         <CardContent>
           <form onSubmit={handleFormSubmit}>
