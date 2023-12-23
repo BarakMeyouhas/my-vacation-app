@@ -9,6 +9,8 @@ const AllVacations = Loadable(lazy(() => import('pages/dashboard')));
 const AdminAllVacations = Loadable(lazy(() => import('pages/dashboard/indexAdmin')));
 const VacationDetails = Loadable(lazy(() => import('pages/dashboard/VacationDetails')));
 const EditVacation = Loadable(lazy(() => import('pages/dashboard/EditVacation')));
+const AddVacation = Loadable(lazy(() => import('pages/dashboard/AddVacation')));
+
 
 // render - sample page
 const SamplePage = Loadable(lazy(() => import('pages/extra-pages/About')));
@@ -33,10 +35,6 @@ const MainRoutes = {
           path: '/allVacations/vacationDetails',
           element: <VacationDetails />
         },
-        {
-          path: '/allVacations/EditVacation',
-          element: <EditVacation />
-        }
       ]
     },
     {
@@ -46,6 +44,10 @@ const MainRoutes = {
     {
       path: '/EditVacation',
       element: <EditVacation />
+    },
+    {
+      path: '/AddVacation',
+      element: <AddVacation />
     },
     {
       path: '/adminAllVacations',
@@ -63,18 +65,6 @@ const MainRoutes = {
       path: 'About',
       element: <SamplePage />
     }
-    // {
-    //   path: 'shadow',
-    //   element: <Shadow />
-    // },
-    // {
-    //   path: 'typography',
-    //   element: <Typography />
-    // },
-    // {
-    //   path: 'icons/ant',
-    //   element: <AntIcons />
-    // }
   ]
 };
 

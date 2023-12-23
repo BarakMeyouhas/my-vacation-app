@@ -105,6 +105,10 @@ const AdminAllVacations = () => {
     return date;
   }
 
+  function handleAddVacationClick() {
+    navigate(`/AddVacation`);
+  }
+
   function handleVacationClick(id) {
     console.log(id);
     navigate(`/vacationDetails?params=${encodeURIComponent(id)}`);
@@ -170,7 +174,7 @@ const AdminAllVacations = () => {
           <Button
             startIcon={<PlusCircleOutlined />}
             onClick={() => {
-              console.log('Add new vacation clicked');
+              handleAddVacationClick();
             }}
           ></Button>
         </Grid>
