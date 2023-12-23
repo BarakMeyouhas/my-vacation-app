@@ -32,7 +32,7 @@ import MainCard from 'components/MainCard';
 import Popover from '@mui/material/Popover';
 
 // assets
-import { MoreOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { MoreOutlined, EditOutlined, DeleteOutlined, PlusCircleOutlined } from '@ant-design/icons';
 
 const ExpandMore = styled((props) => {
   const { ...other } = props;
@@ -120,7 +120,6 @@ const AdminAllVacations = () => {
   };
 
   const handleOptionsClick = (event) => {
-    // Prevent closing the popover when clicking inside it
     event.stopPropagation();
   };
 
@@ -131,7 +130,6 @@ const AdminAllVacations = () => {
 
   const handleEditClick = (event) => {
     event.stopPropagation();
-    console.log(`Edit vacation ${selectedVacationId} clicked`);
     handleClose();
     navigate(`/EditVacation?params=${encodeURIComponent(selectedVacationId)}`);
   };
@@ -143,11 +141,16 @@ const AdminAllVacations = () => {
   const handleCancelDelete = () => {
     setConfirmationDialogOpen(false);
   };
-  const handleConfirmDelete = () => {
-    console.log(`Delete vacation ${selectedVacationId} confirmed`);
-    setConfirmationDialogOpen(false);
-    handleClose(); // Close the More Options popover
-    // Perform the actual delete action here
+  const handleConfirmDelete = async () => {
+    try {
+      await axios.delete(`http://localhost:4000/api/v1/admin/deleteById/${selectedVacationId}`);
+
+      handleClose();
+
+      console.log(`Vacation ${selectedVacationId} deleted successfully`);
+    } catch (error) {
+      console.error('Error deleting vacation:', error);
+    }
   };
 
   const open = Boolean(anchorEl);
@@ -155,9 +158,24 @@ const AdminAllVacations = () => {
 
   return (
     <Grid container rowSpacing={4.5} columnSpacing={2.75}>
-      <Grid item xs={12} sx={{ mb: 2.25 }}>
-        <Typography variant="h5">Hello Admin</Typography>
+      <Grid container item xs={12} sx={{ mb: 2.25 }}>
+        <Grid item xs={12}>
+          <Typography variant="h4">Hello Admin</Typography>
+        </Grid>
+        <br /><br />
+        <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', mt: '10px', Maxwidth:'10px' }}>
+          <Typography variant="h6" sx={{ mr: 2 }}>
+            Add New Vacation
+          </Typography>
+          <Button
+            startIcon={<PlusCircleOutlined />}
+            onClick={() => {
+              console.log('Add new vacation clicked');
+            }}
+          ></Button>
+        </Grid>
       </Grid>
+
       {/* row 1 */}
       <Grid container spacing={3} sx={{ mr: '10px', ml: '10px' }}>
         {vacationsArray.map((vacation) => (

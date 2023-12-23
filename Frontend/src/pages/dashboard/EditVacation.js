@@ -95,8 +95,6 @@ const EditVacation = () => {
       await axios.put(`http://localhost:4000/api/v1/user/updateVacation/${vacationId}`, {
         ...formValues
       });
-
-      // Fetch and update vacation details again after the update
       await fetchVacationDetails();
       navigate('/adminAllVacations');
     } catch (error) {
