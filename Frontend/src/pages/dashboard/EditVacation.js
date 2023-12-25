@@ -27,7 +27,8 @@ const EditVacation = () => {
         description: response.data[0].description,
         start: response.data[0].start.split('T')[0],
         end: response.data[0].end.split('T')[0],
-        price: response.data[0].price
+        price: response.data[0].price,
+        img: response.data[0].img,
       });
       console.log(response.data);
     } catch (error) {

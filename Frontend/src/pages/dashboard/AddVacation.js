@@ -1,8 +1,25 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Card, CardContent, TextField, Button, Container, Grid, CardMedia, Typography } from '@mui/material';
-
+import { useNavigate } from 'react-router-dom';
+import {
+  Card,
+  CardContent,
+  TextField,
+  Button,
+  Container,
+  Grid,
+  CardMedia,
+  Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  CardActionArea
+} from '@mui/material';
 const AddVacation = () => {
+  const [openModal, setOpenModal] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
   const [vacation, setVacation] = useState({
     destination: '',
     description: '',
@@ -11,6 +28,51 @@ const AddVacation = () => {
     price: '',
     img: ''
   });
+  var [images, setImages] = useState([]);
+  const navigate = useNavigate();
+
+  const fetchData = async (page, query) => {
+    const apiKey = 'OQ9XdBxhpTSqIJb7fvEGfw7uYXnDxrOSiPAooXzMiu8yQyen9aiGou7a';
+    const perPage = 80; // Set a large value
+
+    const apiUrl = query ? `https://api.pexels.com/v1/search?query=${query}` : 'https://api.pexels.com/v1/curated';
+
+    const axiosConfig = {
+      headers: {
+        Authorization: apiKey
+      },
+      params: {
+        per_page: perPage,
+        page: page,
+        order_by: 'random',
+        seed: Math.random()
+      }
+    };
+
+    try {
+      const response = await axios.get(apiUrl, axiosConfig);
+      setImages(response.data.photos);
+      setOpenModal(true);
+    } catch (error) {
+      console.error('Error fetching data from Pixels API:', error);
+    }
+  };
+
+  const handleSearchImageClick = () => {
+    console.log('search Photo Clicked');
+    fetchData(null, searchQuery); // Pass the searchQuery to the fetchData function
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
+  const handleDestinationChange = (event) => {
+    const destinationValue = event.target.value;
+    setSearchQuery(destinationValue);
+    // Optionally, you can trigger the image search here if needed.
+    // fetchData(null, destinationValue);
+  };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -60,10 +122,27 @@ const AddVacation = () => {
       .post('http://localhost:4000/api/v1/admin/addVacation', vacation)
       .then((response) => {
         console.log('Vacation added successfully:', response.data);
+        navigate('/AdminAllVacations');
       })
       .catch((error) => {
         console.log('Failed to add vacation:', error);
       });
+  };
+
+  const selectedImageStyle = {
+    border: '4px solid blue'
+  };
+
+  const handleImageClick = (index) => {
+    setSelectedImageIndex(index);
+  };
+
+  const handleSelectImage = (imageUrl) => {
+    setVacation((prevVacation) => ({
+      ...prevVacation,
+      img: imageUrl,
+    }));
+    handleCloseModal(); // Close the modal after selecting the image
   };
 
   return (
@@ -78,13 +157,30 @@ const AddVacation = () => {
                     type="text"
                     name="destination"
                     value={vacation.destination}
-                    onChange={handleInputChange}
+                    onChange={(e) => {
+                      handleDestinationChange(e);
+                      handleInputChange(e);
+                    }}
                     label="Destination"
                     variant="outlined"
                     required
                     fullWidth
                     margin="normal"
                   />
+                  <TextField
+                    type="text"
+                    name="img"
+                    value={vacation.img}
+                    onChange={handleInputChange}
+                    label="Image URL"
+                    variant="outlined"
+                    required
+                    fullWidth
+                    margin="normal"
+                  />
+                  <Button onClick={handleSearchImageClick} color="primary" variant="outlined">
+                    Search Image
+                  </Button>
                   <TextField
                     type="text"
                     name="description"
@@ -129,7 +225,7 @@ const AddVacation = () => {
                       shrink: true
                     }}
                     inputProps={{
-                      min: vacation.start // Restrict earlier dates than start date
+                      min: vacation.start
                     }}
                   />
                   <TextField
@@ -143,19 +239,8 @@ const AddVacation = () => {
                     fullWidth
                     margin="normal"
                   />
-                  <TextField
-                    type="text"
-                    name="img"
-                    value={vacation.img}
-                    onChange={handleInputChange}
-                    label="Image URL"
-                    variant="outlined"
-                    required
-                    fullWidth
-                    margin="normal"
-                  />
                   <Button type="submit" variant="contained" color="primary">
-                    Update Vacation
+                    Add Photo
                   </Button>
                 </div>
               </form>
@@ -175,8 +260,46 @@ const AddVacation = () => {
               </div>
             </CardContent>
           </Card>
+
+          
         </Grid>
       </Container>
+      <Dialog open={openModal} onClose={handleCloseModal}>
+        <DialogTitle>Image Search Results</DialogTitle>
+        <DialogContent>
+          <Grid container spacing={2}>
+            {images.map((image, index) => (
+              <Grid item key={index} xs={6} md={4}>
+                <CardActionArea onClick={() => handleImageClick(index)}>
+                  <Card>
+                    <CardMedia
+                      component="img"
+                      alt={vacation.destination}
+                      height="300"
+                      image={image.src.large}
+                      sx={selectedImageIndex === index ? selectedImageStyle : {}}
+                      onClick={() => handleImageClick(index)}
+                    />
+                  </Card>
+                </CardActionArea>
+              </Grid>
+            ))}
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => handleSelectImage(images[selectedImageIndex].src.original)}
+            variant="contained"
+            color="primary"
+            sx={{ mt: 2 }}
+          >
+            Select Image
+          </Button>
+          <Button onClick={handleCloseModal} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
