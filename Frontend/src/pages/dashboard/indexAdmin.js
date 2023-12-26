@@ -27,7 +27,7 @@ import { styled } from '@mui/system';
 import { useNavigate } from 'react-router-dom';
 
 // project import
-import MonthlyBarChart from './MonthlyBarChart';
+import BarAnimation from './MonthlyBarChart';
 import MainCard from 'components/MainCard';
 import Popover from '@mui/material/Popover';
 
@@ -77,7 +77,7 @@ const AdminAllVacations = () => {
       .get('http://localhost:4000/api/v1/admin/getallLikes')
       .then((response) => {
         const likes = response.data;
-        console.log(likes);
+        console.log('Likes', likes);
       })
       .catch((error) => {
         console.log('Error fetching likes:', error);
@@ -293,7 +293,7 @@ const AdminAllVacations = () => {
       <Grid item xs={12} md={12} lg={12}>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
-            <Typography variant="h5">Income Overview</Typography>
+            <Typography variant="h5">Statistics</Typography>
           </Grid>
           <Grid item />
         </Grid>
@@ -301,12 +301,12 @@ const AdminAllVacations = () => {
           <Box sx={{ p: 3, pb: 0 }}>
             <Stack spacing={2}>
               <Typography variant="h6" color="textSecondary">
-                This Week Statistics
+                Chart
               </Typography>
-              <Typography variant="h3">$7,650</Typography>
+              <Typography variant="h3">Vacations Likes</Typography>
             </Stack>
           </Box>
-          <MonthlyBarChart />
+          <BarAnimation />
         </MainCard>
       </Grid>
 

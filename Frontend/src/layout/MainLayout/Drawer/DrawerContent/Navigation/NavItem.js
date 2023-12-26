@@ -63,7 +63,7 @@ const NavItem = ({ item, level }) => {
             bgcolor: 'primary.lighter'
           },
           '&.Mui-selected': {
-            bgcolor: 'primary.lighter',
+            bgcolor: 'transparent',
             borderRight: `2px solid ${theme.palette.primary.main}`,
             color: iconSelectedColor,
             '&:hover': {

@@ -1,85 +1,70 @@
-import { useEffect, useState } from 'react';
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import { BarChart } from '@mui/x-charts/BarChart';
+import axios from 'axios';
+import { useState, useEffect } from 'react';
 
-// material-ui
-import { useTheme } from '@mui/material/styles';
-
-// third-party
-import ReactApexChart from 'react-apexcharts';
-
-// chart options
-const barChartOptions = {
-  chart: {
-    type: 'bar',
-    height: 365,
-    toolbar: {
-      show: false
-    }
-  },
-  plotOptions: {
-    bar: {
-      columnWidth: '45%',
-      borderRadius: 4
-    }
-  },
-  dataLabels: {
-    enabled: false
-  },
-  xaxis: {
-    categories: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
-    axisBorder: {
-      show: false
-    },
-    axisTicks: {
-      show: false
-    }
-  },
-  yaxis: {
-    show: false
-  },
-  grid: {
-    show: false
-  }
-};
-
-// ==============================|| MONTHLY BAR CHART ||============================== //
-
-const MonthlyBarChart = () => {
-  const theme = useTheme();
-
-  const { primary, secondary } = theme.palette.text;
-  const info = theme.palette.info.light;
-
-  const [series] = useState([
-    {
-      data: [80, 95, 70, 42, 65, 55, 78]
-    }
-  ]);
-
-  const [options, setOptions] = useState(barChartOptions);
+export default function BarAnimation() {
+  const [skipAnimation, setSkipAnimation] = React.useState(false);
+  const [allLikes, setAllLikes] = useState([]);
+  const [allVacations, setAllVacations] = useState([]);
 
   useEffect(() => {
-    setOptions((prevState) => ({
-      ...prevState,
-      colors: [info],
-      xaxis: {
-        labels: {
-          style: {
-            colors: [secondary, secondary, secondary, secondary, secondary, secondary, secondary]
-          }
-        }
-      },
-      tooltip: {
-        theme: 'light'
-      }
-    }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [primary, info, secondary]);
+    if (allLikes.length < 1) {
+      axios
+        .get('http://localhost:4000/api/v1/admin/getallLikes')
+        .then((response) => response.data)
+        .then((allLikes) => {
+          setAllLikes(allLikes);
+          console.log('Likes:', allLikes);
+        });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (allVacations.length < 1) {
+      axios
+        .get('http://localhost:4000/api/v1/admin/getallvacations')
+        .then((response) => response.data)
+        .then((allVacations) => {
+          setAllVacations(allVacations);
+          console.log('Vacations:', allVacations);
+        });
+    }
+  }, []);
+
+  // const vacationsDestinations = allVacations.map((vacation) => vacation.destination);
+  // const vacationLikes = vacationsDestinations.map((destination) => {
+  //   const vacation = allVacations.find((vacation) => vacation.destination === destination);
+  //   if (vacation) {
+  //     const likesCount = allLikes.filter((like) => like.vacation_id === vacation.id).length;
+  //     return likesCount;
+  //   }
+  // });
 
   return (
-    <div id="chart">
-      <ReactApexChart options={options} series={series} type="bar" height={365} />
-    </div>
+    <Box sx={{ width: '100%' }}>
+      <BarChart height={300} series={series.slice(0).map((s) => ({ ...s, data: s.data.slice(0) }))} skipAnimation={skipAnimation} />
+      <FormControlLabel
+        checked={skipAnimation}
+        control={<Checkbox onChange={(event) => setSkipAnimation(event.target.checked)} />}
+        label="skipAnimation"
+        labelPlacement="end"
+      />
+    </Box>
   );
+}
+
+const highlightScope = {
+  highlighted: 'series',
+  faded: 'global'
 };
 
-export default MonthlyBarChart;
+const series = [
+  {
+    label: 'series 1',
+    data: [2423, 2210, 764, 1879, 1478, 1373, 1891, 2171, 620, 1269, 724, 1707, 1188, 1879, 626, 1635, 2177, 516, 1793, 1598]
+  }
+].map((s) => ({ ...s, highlightScope }));

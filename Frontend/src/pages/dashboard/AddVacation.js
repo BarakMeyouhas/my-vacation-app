@@ -29,6 +29,7 @@ const AddVacation = () => {
     img: ''
   });
   var [images, setImages] = useState([]);
+
   const navigate = useNavigate();
 
   const fetchData = async (page, query) => {
@@ -140,7 +141,7 @@ const AddVacation = () => {
   const handleSelectImage = (imageUrl) => {
     setVacation((prevVacation) => ({
       ...prevVacation,
-      img: imageUrl,
+      img: imageUrl
     }));
     handleCloseModal(); // Close the modal after selecting the image
   };
@@ -240,7 +241,7 @@ const AddVacation = () => {
                     margin="normal"
                   />
                   <Button type="submit" variant="contained" color="primary">
-                    Add Photo
+                    Add Vacation
                   </Button>
                 </div>
               </form>
@@ -260,8 +261,6 @@ const AddVacation = () => {
               </div>
             </CardContent>
           </Card>
-
-          
         </Grid>
       </Container>
       <Dialog open={openModal} onClose={handleCloseModal}>
@@ -286,16 +285,11 @@ const AddVacation = () => {
             ))}
           </Grid>
         </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={() => handleSelectImage(images[selectedImageIndex].src.original)}
-            variant="contained"
-            color="primary"
-            sx={{ mt: 2 }}
-          >
+        <DialogActions sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Button onClick={() => handleSelectImage(images[selectedImageIndex].src.original)} variant="contained" color="primary">
             Select Image
           </Button>
-          <Button onClick={handleCloseModal} color="primary">
+          <Button onClick={handleCloseModal} variant="contained" color="error">
             Close
           </Button>
         </DialogActions>
