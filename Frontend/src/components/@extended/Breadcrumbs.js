@@ -50,7 +50,6 @@ const Breadcrumbs = ({ navigation, title, ...others }) => {
   let mainContent;
   let itemContent;
   let breadcrumbContent = <Typography />;
-  let itemTitle = '';
 
   // collapse item
   if (main && main.type === 'collapse') {
@@ -63,12 +62,7 @@ const Breadcrumbs = ({ navigation, title, ...others }) => {
 
   // items
   if (item && item.type === 'item') {
-    itemTitle = item.title;
-    itemContent = (
-      <Typography variant="subtitle1" color="textPrimary">
-        {itemTitle}
-      </Typography>
-    );
+    
 
     // main
     if (item.breadcrumbs !== false) {
@@ -77,16 +71,14 @@ const Breadcrumbs = ({ navigation, title, ...others }) => {
           <Grid container direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={1}>
             <Grid item>
               <MuiBreadcrumbs aria-label="breadcrumb">
-                <Typography component={Link} to="/" color="textSecondary" variant="h6" sx={{ textDecoration: 'none' }}>
-                  Home
-                </Typography>
+                
                 {mainContent}
                 {itemContent}
               </MuiBreadcrumbs>
             </Grid>
             {title && (
               <Grid item sx={{ mt: 2 }}>
-                <Typography variant="h5">{item.title}</Typography>
+                <Typography variant="h3">{item.title}</Typography>
               </Grid>
             )}
           </Grid>

@@ -1,20 +1,60 @@
-// material-ui
-import { Typography } from '@mui/material';
+import React from 'react';
+import { Typography, Container, List, ListItem, ListItemText } from '@mui/material';
 
-// project import
-import MainCard from 'components/MainCard';
-
-// ==============================|| SAMPLE PAGE ||============================== //
-
-const SamplePage = () => (
-  <MainCard title="Sample Card">
-    <Typography variant="body2">
-      Lorem ipsum dolor sit amen, consenter nipissing eli, sed do elusion tempos incident ut laborers et doolie magna alissa. Ut enif ad
-      minim venice, quin nostrum exercitation illampu laborings nisi ut liquid ex ea commons construal. Duos aube grue dolor in reprehended
-      in voltage veil esse colum doolie eu fujian bulla parian. Exceptive sin ocean cuspidate non president, sunk in culpa qui officiate
-      descent molls anim id est labours.
+const About = () => (
+  <Container>
+    <Typography variant="body1" paragraph>
+      Welcome to My Vacations Application! This platform provides an interactive and user-friendly environment for exploring and managing
+      vacations.
     </Typography>
-  </MainCard>
+
+    <Typography variant="body1" paragraph>
+      <strong>Login Options:</strong>
+    </Typography>
+
+    <Typography variant="body2" paragraph>
+      <strong>1. Regular User:</strong> If you are a regular user, you can log in using your registered email and password. This will grant
+      you access to explore and interact with available vacations.
+    </Typography>
+
+    <Typography variant="body2" paragraph>
+      <strong>2. Admin:</strong> Administrators have additional privileges. To log in as an admin, please use the following credentials:
+    </Typography>
+
+    <List>
+      <ListItem>
+        <ListItemText
+          primary="Email"
+          secondary={
+            <Typography variant="body2" color="textSecondary">
+              admin1@gmail.com
+            </Typography>
+          }
+        />
+      </ListItem>
+      <ListItem>
+        <ListItemText
+          primary="Password"
+          secondary={
+            <Typography variant="body2" color="textSecondary">
+              admin123
+            </Typography>
+          }
+        />
+      </ListItem>
+    </List>
+
+    <Typography variant="body1" paragraph>
+      Admins can manage all vacations and have access to administrative features.
+    </Typography>
+
+    <Typography variant="body1" paragraph>
+      Feel free to explore the app and make the most out of your experience. If you have any questions or feedback, please contact me
+      through my email at barakm25@gmail.com.
+    </Typography>
+
+    <Typography variant="body2">Thank you for using my application!</Typography>
+  </Container>
 );
 
-export default SamplePage;
+export default About;
