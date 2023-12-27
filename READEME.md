@@ -12,8 +12,6 @@ This is a web application built using React.js for the frontend, Node.js for the
 
 1. **Clone the Repository:**
 
-- git clone https://github.com/your-username/vacation-management-app.git
-
 2. **Install Dependencies:**
 
 - Navigate to the 'backend' folder and install backend dependencies with npm install
@@ -52,6 +50,6 @@ The Vacation Exploration And Management Web App provides a user-friendly interfa
 
 ## Feedback and Support
 
-Feel free to explore the application and provide feedback. If you have any questions or need assistance, please contact us through our support email.
+Feel free to explore the application and provide feedback. If you have any questions or need assistance, please contact me through my support email - barakm25@gmail.com.
 
-Thank you for using our Vacation Exploration And Management Web App!
+Thank you for using my Vacation Exploration And Management Web App!
