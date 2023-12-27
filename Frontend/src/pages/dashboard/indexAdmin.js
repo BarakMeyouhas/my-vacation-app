@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 // material-ui
 import {
@@ -46,6 +47,8 @@ const ExpandMore = styled((props) => {
 }));
 
 const AdminAllVacations = () => {
+  const searchValue = useSelector((state) => state.search.searchValue);
+  const [filteredVacations, setFilteredVacations] = useState([]);
   const [vacationsArray, setVacationsArray] = useState([]);
   const [expandedCards, setExpandedCards] = useState({});
   const navigate = useNavigate();
@@ -67,6 +70,7 @@ const AdminAllVacations = () => {
           return dateA.getTime() - dateB.getTime();
         });
         setVacationsArray(sortedVacations);
+        setFilteredVacations(sortedVacations); // Initialize filteredVacations with all vacations
       })
       .catch((error) => {
         console.log('Error fetching vacations:', error);
@@ -92,6 +96,15 @@ const AdminAllVacations = () => {
       // Continue with your logic using user_id
     }
   }, [navigate]);
+
+  useEffect(() => {
+    if (searchValue) {
+      const filtered = vacationsArray.filter((vacation) => vacation.destination.toLowerCase().includes(searchValue.toLowerCase()));
+      setFilteredVacations(filtered);
+    } else {
+      setFilteredVacations(vacationsArray);
+    }
+  }, [searchValue, vacationsArray]);
 
   const handleExpandClick = (id) => {
     setExpandedCards((prevExpandedCards) => ({
@@ -166,8 +179,9 @@ const AdminAllVacations = () => {
         <Grid item xs={12}>
           <Typography variant="h4">Hello Admin</Typography>
         </Grid>
-        <br /><br />
-        <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', mt: '10px', Maxwidth:'10px' }}>
+        <br />
+        <br />
+        <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', mt: '10px', Maxwidth: '10px' }}>
           <Typography variant="h6" sx={{ mr: 2 }}>
             Add New Vacation
           </Typography>
@@ -182,7 +196,7 @@ const AdminAllVacations = () => {
 
       {/* row 1 */}
       <Grid container spacing={3} sx={{ mr: '10px', ml: '10px' }}>
-        {vacationsArray.map((vacation) => (
+        {filteredVacations.map((vacation) => (
           <Grid key={vacation.id} item xs={12} sm={6} md={4}>
             <Card
               onClick={() => handleVacationClick(vacation.id)}

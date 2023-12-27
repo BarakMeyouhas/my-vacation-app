@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { useNavigate } from '../../../node_modules/react-router-dom/dist/index';
-// import { useLocation } from '../../../node_modules/react-router-dom/dist/index';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
-// import { RouteComponentProps } from 'react-router-dom';
 
 // material-ui
 import {
@@ -39,6 +37,8 @@ const ExpandMore = styled((props) => {
 // ==============================|| DASHBOARD - DEFAULT ||============================== //
 
 const Allvacations = () => {
+  const searchValue = useSelector((state) => state.search.searchValue);
+  const [filteredVacations, setFilteredVacations] = useState([]);
   const [vacationsArray, setVacationsArray] = useState([]);
   const [userID, setUserID] = useState(null); // Initialize userID state
   const [likedVacations, setLikedVacations] = useState({});
@@ -57,6 +57,7 @@ const Allvacations = () => {
           return dateA.getTime() - dateB.getTime();
         });
         setVacationsArray(sortedVacations);
+        setFilteredVacations(sortedVacations); // Initialize filteredVacations with all vacations
       })
       .catch((error) => {
         console.log('Error fetching vacations:', error);
@@ -83,6 +84,15 @@ const Allvacations = () => {
       setUserID(user_id);
     }
   }, [navigate]);
+
+  useEffect(() => {
+    if (searchValue) {
+      const filtered = vacationsArray.filter((vacation) => vacation.destination.toLowerCase().includes(searchValue.toLowerCase()));
+      setFilteredVacations(filtered);
+    } else {
+      setFilteredVacations(vacationsArray);
+    }
+  }, [searchValue, vacationsArray]);
 
   useEffect(() => {
     if (userID) {
@@ -165,7 +175,7 @@ const Allvacations = () => {
         <Typography variant="h5">All Vacations</Typography>
       </Grid>
       <Grid container spacing={3} sx={{ mr: '10px', ml: '10px' }}>
-        {vacationsArray.map((vacation) => (
+        {filteredVacations.map((vacation) => (
           <Grid key={vacation.id} item xs={12} sm={6} md={4}>
             <Card
               onClick={() => handleVacationClick(vacation.id)}

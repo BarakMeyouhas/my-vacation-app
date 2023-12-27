@@ -1,17 +1,22 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { Card, Typography, CardMedia, CardContent, Button } from '@mui/material';
+import { Card, Typography, CardMedia, CardContent, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 
 const VacationDetails = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const vacationId = parseInt(searchParams.get('params'), 10);
   const [vacationDetails, setVacationDetails] = useState(null);
+  const [isDialogOpen, setDialogOpen] = useState(false);
 
   const handleBookNow = () => {
-    // Implement your booking logic here
     console.log('Booking vacation:', vacationDetails);
+    setDialogOpen(true);
+  };
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
   };
 
   useEffect(() => {
@@ -61,6 +66,18 @@ const VacationDetails = () => {
           </Button>
         </CardContent>
       </Card>
+
+      <Dialog open={isDialogOpen} onClose={handleDialogClose}>
+        <DialogTitle>Congratulations!</DialogTitle>
+        <DialogContent>
+          <Typography>Congratulations on booking a vacation to {vacationDetails.destination}! We wish you enjoy every moment!</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDialogClose} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
