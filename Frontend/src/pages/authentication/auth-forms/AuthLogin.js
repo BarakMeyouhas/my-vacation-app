@@ -5,9 +5,6 @@ import { useEffect, useState } from 'react';
 // material-ui
 import {
   Button,
-  Checkbox,
-  // Divider,
-  FormControlLabel,
   FormHelperText,
   Grid,
   Link,
@@ -16,7 +13,6 @@ import {
   InputLabel,
   OutlinedInput,
   Stack,
-  Typography
 } from '@mui/material';
 
 // third party
@@ -34,7 +30,6 @@ import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const AuthLogin = () => {
-  const [checked, setChecked] = useState(false);
   const navigate = useNavigate();
   const [user, setUser] = useState({
     user_email: '',
@@ -69,12 +64,10 @@ const AuthLogin = () => {
 
         if (userData.userExists) {
           // Save user information to local storage only if "Keep me signed in" is checked
-          if (checked) {
-            localStorage.setItem('user', JSON.stringify(userData));
-            localStorage.setItem('user_name', userData.user_name);
-            localStorage.setItem('user_email', userData.user_email);
-            localStorage.setItem('user_id', userData.user_id);
-          }
+          localStorage.setItem('user', JSON.stringify(userData));
+          localStorage.setItem('user_name', userData.user_name);
+          localStorage.setItem('user_email', userData.user_email);
+          localStorage.setItem('user_id', userData.user_id);
 
           if (userData.user_email === 'admin1@gmail.com') {
             navigate('/adminAllVacations');
@@ -183,28 +176,6 @@ const AuthLogin = () => {
 
               <Grid item xs={12} sx={{ mt: -1 }}>
                 <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={checked}
-                        onChange={(event) => {
-                          setChecked(event.target.checked);
-                          handleInputChange({
-                            target: {
-                              name: 'keepMeSignedIn',
-                              value: event.target.checked,
-                              type: 'checkbox'
-                            }
-                          });
-                        }}
-                        name="checked"
-                        color="primary"
-                        size="small"
-                        id="keepMeSignedIn"
-                      />
-                    }
-                    label={<Typography variant="h6">Keep me sign in</Typography>}
-                  />
                   <Link variant="h6" component={RouterLink} to="" color="text.primary">
                     Forgot Password?
                   </Link>
@@ -232,14 +203,6 @@ const AuthLogin = () => {
                   </Button>
                 </AnimateButton>
               </Grid>
-              {/* <Grid item xs={12}>
-                <Divider>
-                  <Typography variant="caption"> Login with</Typography>
-                </Divider>
-              </Grid>
-              <Grid item xs={12}>
-                <FirebaseSocial />
-              </Grid> */}
             </Grid>
           </form>
         )}

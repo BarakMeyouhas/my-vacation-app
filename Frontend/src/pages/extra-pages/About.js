@@ -3,21 +3,21 @@ import { Typography, Container, List, ListItem, ListItemText } from '@mui/materi
 
 const About = () => (
   <Container>
-    <Typography variant="body1" paragraph>
+    <Typography variant="h5" paragraph>
       Welcome to My Vacations Application! This platform provides an interactive and user-friendly environment for exploring and managing
       vacations.
     </Typography>
 
-    <Typography variant="body1" paragraph>
+    <Typography variant="h5" paragraph>
       <strong>Login Options:</strong>
     </Typography>
 
-    <Typography variant="body2" paragraph>
+    <Typography variant="body1" paragraph>
       <strong>1. Regular User:</strong> If you are a regular user, you can log in using your registered email and password. This will grant
       you access to explore and interact with available vacations.
     </Typography>
 
-    <Typography variant="body2" paragraph>
+    <Typography variant="body1" paragraph>
       <strong>2. Admin:</strong> Administrators have additional privileges. To log in as an admin, please use the following credentials:
     </Typography>
 
@@ -26,7 +26,7 @@ const About = () => (
         <ListItemText
           primary="Email"
           secondary={
-            <Typography variant="body2" color="textSecondary">
+            <Typography variant="body1" color="textSecondary">
               admin1@gmail.com
             </Typography>
           }
@@ -36,7 +36,7 @@ const About = () => (
         <ListItemText
           primary="Password"
           secondary={
-            <Typography variant="body2" color="textSecondary">
+            <Typography variant="body1" color="textSecondary">
               admin123
             </Typography>
           }
@@ -44,16 +44,16 @@ const About = () => (
       </ListItem>
     </List>
 
-    <Typography variant="body1" paragraph>
+    <Typography variant="h5" paragraph>
       Admins can manage all vacations and have access to administrative features.
     </Typography>
 
-    <Typography variant="body1" paragraph>
+    <Typography variant="h5" paragraph>
       Feel free to explore the app and make the most out of your experience. If you have any questions or feedback, please contact me
       through my email at barakm25@gmail.com.
     </Typography>
 
-    <Typography variant="body2">Thank you for using my application!</Typography>
+    <Typography variant="body1">Thank you for using my application!</Typography>
   </Container>
 );
 
