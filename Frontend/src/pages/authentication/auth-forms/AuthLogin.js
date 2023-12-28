@@ -37,11 +37,9 @@ const AuthLogin = () => {
   });
 
   useEffect(() => {
-    console.log('Component mounted');
     const storedUser = localStorage.getItem('user');
     const storedUserName = localStorage.getItem('user_name');
     if (storedUser && storedUserName) {
-      console.log('Navigating to allVacations');
       navigate('/allVacations');
     }
   }, [navigate]);

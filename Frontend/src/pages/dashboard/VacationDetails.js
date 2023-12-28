@@ -11,7 +11,6 @@ const VacationDetails = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
 
   const handleBookNow = () => {
-    console.log('Booking vacation:', vacationDetails);
     setDialogOpen(true);
   };
 
@@ -24,7 +23,6 @@ const VacationDetails = () => {
       try {
         const response = await axios.get(`http://localhost:4000/api/v1/user/vacationById/${vacationId}`);
         setVacationDetails(response.data[0]);
-        console.log(response.data);
       } catch (error) {
         console.error('Error fetching vacation details:', error);
       }

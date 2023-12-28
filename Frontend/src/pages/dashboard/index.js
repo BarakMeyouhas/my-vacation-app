@@ -46,7 +46,6 @@ const Allvacations = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch vacations
     axios
       .get('http://localhost:4000/api/v1/user/getallvacations')
       .then((response) => {
@@ -63,24 +62,14 @@ const Allvacations = () => {
         console.log('Error fetching vacations:', error);
       });
 
-    // Fetch likes
-    axios
-      .get('http://localhost:4000/api/v1/admin/getallLikes')
-      .then((response) => {
-        const likes = response.data;
-        console.log(likes);
-      })
-      .catch((error) => {
-        console.log('Error fetching likes:', error);
-      });
-
     const user_id = localStorage.getItem('user_id');
+    const user_email = localStorage.getItem('user_email');
 
-    // Check if user_id is available
     if (!user_id) {
       navigate('/login');
+    } else if (user_email === 'admin1@gmail.com') {
+      navigate('/adminAllVacations');
     } else {
-      // Continue with your logic using user_id
       setUserID(user_id);
     }
   }, [navigate]);

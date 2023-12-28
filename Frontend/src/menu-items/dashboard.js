@@ -12,8 +12,7 @@ const user_email = localStorage.getItem('user_email'); // Retrieve user_name fro
 const user_name = localStorage.getItem('user_name');
 
 
-console.log('user_email:', user_email);
-console.log('user_name:', user_name);
+
 
 const dashboard = {
   id: 'group-dashboard',

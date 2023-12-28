@@ -60,7 +60,10 @@ const AddVacation = () => {
   };
 
   const handleSearchImageClick = () => {
-    console.log('search Photo Clicked');
+    if (!vacation.destination.trim()) {
+      alert('Please enter a destination before searching for images.');
+      return;
+    }
     fetchData(null, searchQuery); // Pass the searchQuery to the fetchData function
   };
 
@@ -71,8 +74,6 @@ const AddVacation = () => {
   const handleDestinationChange = (event) => {
     const destinationValue = event.target.value;
     setSearchQuery(destinationValue);
-    // Optionally, you can trigger the image search here if needed.
-    // fetchData(null, destinationValue);
   };
 
   const handleInputChange = (event) => {
@@ -81,7 +82,6 @@ const AddVacation = () => {
     let sanitizedValue = '';
 
     if (name === 'price') {
-      // Convert the input to a non-negative number
       const numericValue = parseFloat(value);
       sanitizedValue = isNaN(numericValue) ? '' : Math.max(0, Math.min(10000, numericValue)).toString();
     } else {
@@ -89,20 +89,16 @@ const AddVacation = () => {
     }
 
     if (name === 'start') {
-      // Compare start and end dates
       const endDate = vacation.end;
       if (endDate && value > endDate) {
-        // Reset the end date if it's earlier than the new start date
         setVacation((prevVacation) => ({
           ...prevVacation,
           end: ''
         }));
       }
     } else if (name === 'end') {
-      // Compare start and end dates
       const startDate = vacation.start;
       if (startDate && value < startDate) {
-        // Reset the start date if it's later than the new end date
         setVacation((prevVacation) => ({
           ...prevVacation,
           start: ''
@@ -143,7 +139,7 @@ const AddVacation = () => {
       ...prevVacation,
       img: imageUrl
     }));
-    handleCloseModal(); // Close the modal after selecting the image
+    handleCloseModal();
   };
 
   return (
@@ -208,7 +204,7 @@ const AddVacation = () => {
                       shrink: true
                     }}
                     inputProps={{
-                      min: new Date().toISOString().split('T')[0] // Restrict past dates
+                      min: new Date().toISOString().split('T')[0]
                     }}
                   />
                   <TextField
@@ -263,12 +259,13 @@ const AddVacation = () => {
           </Card>
         </Grid>
       </Container>
+
       <Dialog open={openModal} onClose={handleCloseModal}>
         <DialogTitle>Image Search Results</DialogTitle>
         <DialogContent>
           <Grid container spacing={2}>
             {images.map((image, index) => (
-              <Grid item key={index} xs={6} md={4}>
+              <Grid item key={index} xs={12} sm={6} md={4}>
                 <CardActionArea onClick={() => handleImageClick(index)}>
                   <Card>
                     <CardMedia

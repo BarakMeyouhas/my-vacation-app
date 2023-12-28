@@ -123,7 +123,6 @@ const AdminAllVacations = () => {
   }
 
   function handleVacationClick(id) {
-    console.log(id);
     navigate(`/vacationDetails?params=${encodeURIComponent(id)}`);
   }
 
