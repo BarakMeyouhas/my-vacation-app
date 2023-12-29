@@ -7,7 +7,6 @@ import { useState, useEffect } from 'react';
 export default function BarAnimation() {
   const [allLikes, setAllLikes] = useState([]);
   const [allVacations, setAllVacations] = useState([]);
-  
 
   useEffect(() => {
     if (allLikes.length < 1) {
@@ -31,14 +30,17 @@ export default function BarAnimation() {
     }
   }, []);
 
-  // const vacationsDestinations = allVacations.map((vacation) => vacation.destination);
-  // const vacationLikes = vacationsDestinations.map((destination) => {
-  //   const vacation = allVacations.find((vacation) => vacation.destination === destination);
-  //   if (vacation) {
-  //     const likesCount = allLikes.filter((like) => like.vacation_id === vacation.id).length;
-  //     return likesCount;
-  //   }
-  // });
+
+  
+  const vacationsDestinations = allVacations.map((vacation) => vacation.destination);
+  const vacationLikes = vacationsDestinations.map((destination) => {
+    const vacation = allVacations.find((vacation) => vacation.destination === destination);
+    if (vacation) {
+      const likesCount = allLikes.filter((like) => like.vacation_id === vacation.id).length;
+      return likesCount;
+    }
+  });
+  console.log(vacationLikes);
 
   return (
     <Box sx={{ width: '100%' }}>
