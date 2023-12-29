@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 export default function BarAnimation() {
   const [allLikes, setAllLikes] = useState([]);
   const [allVacations, setAllVacations] = useState([]);
+  const [vacationData, setVacationData] = useState([]);
 
   useEffect(() => {
     if (allLikes.length < 1) {
@@ -30,33 +31,54 @@ export default function BarAnimation() {
     }
   }, []);
 
-
-  
-  const vacationsDestinations = allVacations.map((vacation) => vacation.destination);
-  const vacationLikes = vacationsDestinations.map((destination) => {
-    const vacation = allVacations.find((vacation) => vacation.destination === destination);
-    if (vacation) {
-      const likesCount = allLikes.filter((like) => like.vacation_id === vacation.id).length;
-      return likesCount;
+  useEffect(() => {
+    if (allVacations.length > 1) {
+      const vacationsDestinations = allVacations.map((vacation) => vacation.destination);
+      const vacationLikes = vacationsDestinations.map((destination) => {
+      const vacation = allVacations.find((vacation) => vacation.destination === destination);
+        if (vacation) {
+          const likesCount = allLikes.filter((like) => like.vacation_id === vacation.id).length;
+          return {
+            likes: likesCount,
+            name: destination
+          };
+        }
+      });
+      setVacationData(vacationLikes);
     }
-  });
-  console.log(vacationLikes);
+  }, [allVacations]);
+
 
   return (
     <Box sx={{ width: '100%' }}>
-      <BarChart height={300} series={series.slice(0).map((s) => ({ ...s, data: s.data.slice(0) }))} />
+      {vacationData.length > 0 && (
+        <BarChart
+          xAxis={[
+            {
+              scaleType: 'band',
+              data: vacationData.map((v) => v.name)
+            }
+          ]}
+          series={[
+            {
+              data: vacationData.map((v) => v.likes)
+            }
+          ]}
+          height={300}
+        />
+      )} 
     </Box>
   );
 }
 
-const highlightScope = {
-  highlighted: 'series',
-  faded: 'global'
-};
+// const highlightScope = {
+//   highlighted: 'series',
+//   faded: 'global'
+// };
 
-const series = [
-  {
-    label: 'series 1',
-    data: [2423, 2210, 764, 1879, 1478, 1373, 1891, 2171, 620, 1269, 724, 1707, 1188, 1879, 626, 1635, 2177, 516, 1793, 1598, 724, 1707]
-  }
-].map((s) => ({ ...s, highlightScope }));
+// const series = [
+//   {
+//     label: 'series 1',
+//     data: [2423, 2210, 764, 1879, 1478, 1373, 1891, 2171, 620, 1269, 724, 1707, 1188, 1879, 626, 1635, 2177, 516, 1793, 1598, 724, 1707]
+//   }
+// ].map((s) => ({ ...s, highlightScope }));

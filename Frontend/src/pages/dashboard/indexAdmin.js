@@ -79,9 +79,9 @@ const AdminAllVacations = () => {
     // Fetch likes
     axios
       .get('http://localhost:4000/api/v1/admin/getallLikes')
-      .then((response) => {
-        const likes = response.data;
-        console.log('Likes', likes);
+      .then(() => {
+        // const likes = response.data;
+        // console.log('Likes', likes);
       })
       .catch((error) => {
         console.log('Error fetching likes:', error);
