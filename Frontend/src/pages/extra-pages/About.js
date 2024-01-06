@@ -48,9 +48,11 @@ const About = () => (
       Admins can manage all vacations and have access to administrative features.
     </Typography>
 
-    <Typography variant="h5" paragraph>
-      Feel free to explore the app and make the most out of your experience. If you have any questions or feedback, please contact me
-      through my email at barakm25@gmail.com.
+    <Typography variant="body1" paragraph className="contact-text">
+      If you have any questions or feedback, feel free to contact me at barakm25@gmail.com. and my{' '}
+      <a target="_blank" rel="noreferrer" href="https://github.com/BarakMeyouhas">
+        GitHub account
+      </a>
     </Typography>
 
     <Typography variant="body1">Thank you for using my application!</Typography>

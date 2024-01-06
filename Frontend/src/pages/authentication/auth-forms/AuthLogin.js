@@ -3,17 +3,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 // material-ui
-import {
-  Button,
-  FormHelperText,
-  Grid,
-  Link,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  Stack,
-} from '@mui/material';
+import { Button, FormHelperText, Grid, Link, IconButton, InputAdornment, InputLabel, OutlinedInput, Stack } from '@mui/material';
 
 // third party
 import * as Yup from 'yup';
@@ -43,6 +33,10 @@ const AuthLogin = () => {
       navigate('/allVacations');
     }
   }, [navigate]);
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('email-login').value = 'demo@gmail.com';
+  });
 
   const handleInputChange = (event) => {
     const { name, value, type } = event.target;
@@ -94,8 +88,8 @@ const AuthLogin = () => {
     <>
       <Formik
         initialValues={{
-          user_email: 'barak@gmail.com',
-          password: '123456',
+          user_email: 'demo@gmail.com', // Set default email value
+          password: 'demo123', // Set default password value
           submit: null
         }}
         validationSchema={Yup.object().shape({
@@ -126,9 +120,10 @@ const AuthLogin = () => {
                     name="user_email"
                     onBlur={handleBlur}
                     onChange={handleInputChange}
-                    placeholder="Enter email address"
+                    placeholder="demo@gmail.com"
                     fullWidth
                     error={Boolean(touched.user_email && errors.user_email)}
+                    defaultValue="demo@gmail.com"
                   />
                   {touched.user_email && errors.user_email && (
                     <FormHelperText error id="standard-weight-helper-text-email-login">
@@ -143,7 +138,8 @@ const AuthLogin = () => {
                   <OutlinedInput
                     fullWidth
                     error={Boolean(touched.password && errors.password)}
-                    id="-password-login"
+                    id="password-login"
+                    defaultValue="demo123" // Set default value here
                     type={showPassword ? 'text' : 'password'}
                     value={user.password}
                     name="password"
