@@ -22,8 +22,8 @@ import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 const AuthLogin = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState({
-    user_email: '',
-    password: ''
+    user_email: 'demo@gmail.com',
+    password: 'demo123'
   });
 
   useEffect(() => {
@@ -123,7 +123,6 @@ const AuthLogin = () => {
                     placeholder="demo@gmail.com"
                     fullWidth
                     error={Boolean(touched.user_email && errors.user_email)}
-                    defaultValue="demo@gmail.com"
                   />
                   {touched.user_email && errors.user_email && (
                     <FormHelperText error id="standard-weight-helper-text-email-login">
