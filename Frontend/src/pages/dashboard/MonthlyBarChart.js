@@ -12,7 +12,7 @@ export default function BarAnimation() {
   useEffect(() => {
     if (allLikes.length < 1) {
       axios
-        .get('http://localhost:4000/api/v1/admin/getallLikes')
+        .get('https://my-vacation-app-database-721ed7af9c4d.herokuapp.com/api/v1/admin/getallLikes')
         .then((response) => response.data)
         .then((allLikes) => {
           setAllLikes(allLikes);
@@ -23,7 +23,7 @@ export default function BarAnimation() {
   useEffect(() => {
     if (allVacations.length < 1) {
       axios
-        .get('http://localhost:4000/api/v1/admin/getallvacations')
+        .get('https://my-vacation-app-database-721ed7af9c4d.herokuapp.com/api/v1/admin/getallvacations')
         .then((response) => response.data)
         .then((allVacations) => {
           setAllVacations(allVacations);
@@ -35,7 +35,7 @@ export default function BarAnimation() {
     if (allVacations.length > 1) {
       const vacationsDestinations = allVacations.map((vacation) => vacation.destination);
       const vacationLikes = vacationsDestinations.map((destination) => {
-      const vacation = allVacations.find((vacation) => vacation.destination === destination);
+        const vacation = allVacations.find((vacation) => vacation.destination === destination);
         if (vacation) {
           const likesCount = allLikes.filter((like) => like.vacation_id === vacation.id).length;
           return {
@@ -47,7 +47,6 @@ export default function BarAnimation() {
       setVacationData(vacationLikes);
     }
   }, [allVacations]);
-
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -66,7 +65,7 @@ export default function BarAnimation() {
           ]}
           height={300}
         />
-      )} 
+      )}
     </Box>
   );
 }

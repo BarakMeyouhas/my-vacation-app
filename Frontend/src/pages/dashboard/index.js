@@ -47,7 +47,7 @@ const Allvacations = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:4000/api/v1/user/getallvacations')
+      .get('https://my-vacation-app-database-721ed7af9c4d.herokuapp.com/api/v1/user/getallvacations')
       .then((response) => {
         const vacationsData = response.data;
         const sortedVacations = vacationsData.sort((a, b) => {
@@ -86,7 +86,7 @@ const Allvacations = () => {
   useEffect(() => {
     if (userID) {
       axios
-        .get(`http://localhost:4000/api/v1/user/getUserLikes/${userID}`)
+        .get(`https://my-vacation-app-database-721ed7af9c4d.herokuapp.com/api/v1/user/getUserLikes/${userID}`)
         .then((response) => {
           const userLikes = response.data;
           const likedVacationsObj = {};
@@ -113,7 +113,7 @@ const Allvacations = () => {
       const isLiked = likedVacations[id];
 
       if (isLiked) {
-        const response = await axios.delete(`http://localhost:4000/api/v1/user/removeLikeById/${id}`);
+        const response = await axios.delete(`https://my-vacation-app-database-721ed7af9c4d.herokuapp.com/api/v1/user/removeLikeById/${id}`);
         if (response.status === 200) {
           setLikedVacations((prevLikedVacations) => {
             const updatedLikedVacations = { ...prevLikedVacations };
@@ -128,7 +128,7 @@ const Allvacations = () => {
           user_id: userID,
           vacation_id: id
         };
-        await axios.post('http://localhost:4000/api/v1/user/addLike', newLike);
+        await axios.post('https://my-vacation-app-database-721ed7af9c4d.herokuapp.com/api/v1/user/addLike', newLike);
         console.log('Like clicked for vacation ID:', id);
         setLikedVacations((prevLikedVacations) => ({
           ...prevLikedVacations,

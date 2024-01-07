@@ -20,7 +20,7 @@ const EditVacation = () => {
 
   const fetchVacationDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:4000/api/v1/user/vacationById/${vacationId}`);
+      const response = await axios.get(`https://my-vacation-app-database-721ed7af9c4d.herokuapp.com/api/v1/user/vacationById/${vacationId}`);
       setVacationDetails(response.data[0]);
       setFormValues({
         destination: response.data[0].destination,
@@ -93,7 +93,7 @@ const EditVacation = () => {
     }
 
     try {
-      await axios.put(`http://localhost:4000/api/v1/user/updateVacation/${vacationId}`, {
+      await axios.put(`https://my-vacation-app-database-721ed7af9c4d.herokuapp.com/api/v1/user/updateVacation/${vacationId}`, {
         ...formValues
       });
       await fetchVacationDetails();

@@ -61,7 +61,7 @@ const AdminAllVacations = () => {
   useEffect(() => {
     // Fetch vacations
     axios
-      .get('http://localhost:4000/api/v1/user/getallvacations')
+      .get('https://my-vacation-app-database-721ed7af9c4d.herokuapp.com/api/v1/user/getallvacations')
       .then((response) => {
         const vacationsData = response.data;
         const sortedVacations = vacationsData.sort((a, b) => {
@@ -78,7 +78,7 @@ const AdminAllVacations = () => {
 
     // Fetch likes
     axios
-      .get('http://localhost:4000/api/v1/admin/getallLikes')
+      .get('https://my-vacation-app-database-721ed7af9c4d.herokuapp.com/api/v1/admin/getallLikes')
       .then(() => {
         // const likes = response.data;
         // console.log('Likes', likes);
@@ -159,7 +159,7 @@ const AdminAllVacations = () => {
   };
   const handleConfirmDelete = async () => {
     try {
-      await axios.delete(`http://localhost:4000/api/v1/admin/deleteById/${selectedVacationId}`);
+      await axios.delete(`https://my-vacation-app-database-721ed7af9c4d.herokuapp.com/api/v1/admin/deleteById/${selectedVacationId}`);
 
       handleClose();
 

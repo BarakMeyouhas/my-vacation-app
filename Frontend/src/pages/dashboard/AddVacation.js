@@ -116,7 +116,7 @@ const AddVacation = () => {
     event.preventDefault();
 
     axios
-      .post('http://localhost:4000/api/v1/admin/addVacation', vacation)
+      .post('https://my-vacation-app-database-721ed7af9c4d.herokuapp.com/api/v1/admin/addVacation', vacation)
       .then((response) => {
         console.log('Vacation added successfully:', response.data);
         navigate('/AdminAllVacations');

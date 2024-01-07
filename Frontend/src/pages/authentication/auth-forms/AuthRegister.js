@@ -73,7 +73,7 @@ const AuthRegister = () => {
 
     // Check if the username already exists on the server
     axios
-      .post('http://localhost:4000/api/v1/user/checkUseremail', {
+      .post('https://my-vacation-app-database-721ed7af9c4d.herokuapp.com/api/v1/user/checkUseremail', {
         useremail: user.user_email
       })
       .then((response) => {
@@ -82,7 +82,7 @@ const AuthRegister = () => {
         } else {
           // Username doesn't exist, proceed with registration
           axios
-            .post('http://localhost:4000/api/v1/user/addUser', user)
+            .post('https://my-vacation-app-database-721ed7af9c4d.herokuapp.com/api/v1/user/addUser', user)
             .then((response) => {
               console.log('User details sent to the server:', user);
               console.log('Server response:', response.data); // Log the server response

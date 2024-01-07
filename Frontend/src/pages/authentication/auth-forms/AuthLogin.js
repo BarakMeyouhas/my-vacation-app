@@ -50,7 +50,7 @@ const AuthLogin = () => {
     event.preventDefault();
 
     axios
-      .post('http://localhost:4000/api/v1/user/login', user)
+      .post('https://my-vacation-app-database-721ed7af9c4d.herokuapp.com/api/v1/user/login', user)
       .then((response) => {
         const userData = response.data.loginSuccessful;
 
