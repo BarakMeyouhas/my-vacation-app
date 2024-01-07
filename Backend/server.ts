@@ -5,6 +5,7 @@ import express from "express";
 import fileUpload from "express-fileupload";
 import config from "./Utils/Config";
 import ErrorHandler from "./MiddleWare/route-not-found";
+import router from "./Routes/SimpleRouter";
 
 import VacationRouter from "./Routes/VacationRouter";
 
@@ -26,7 +27,7 @@ server.use(express.static("upload"));
 server.use(fileUpload({ createParentPath: true }));
 
 //using routes => localhost:4000/api/v1/test/checkOK
-
+server.use("/api/v1/test", router);
 server.use("/api/v1/user", VacationRouter);
 server.use("/api/v1/admin", VacationRouter);
 
@@ -34,7 +35,7 @@ server.use("/api/v1/admin", VacationRouter);
 server.use("*", ErrorHandler);
 
 //start the server
-server.listen(config.webPort, () => {
+server.listen(process.env.PORT || config.webPort, () => {
   console.log(`listing on http://localhost:${config.webPort}`);
   console.log(
     `for testing use the path http://localhost:${config.webPort}/api/v1/test/checkOK`
