@@ -31,7 +31,7 @@ CREATE TABLE `siteusers` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_name_UNIQUE` (`user_name`),
   UNIQUE KEY `user_email_UNIQUE` (`user_email`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +40,7 @@ CREATE TABLE `siteusers` (
 
 LOCK TABLES `siteusers` WRITE;
 /*!40000 ALTER TABLE `siteusers` DISABLE KEYS */;
-INSERT INTO `siteusers` VALUES (1,'barak','barak1@gmail.com','1234',NULL),(2,'ari','ari1@gmail.com','12345',NULL),(3,'may','may1@gmail.com','123456',NULL);
+INSERT INTO `siteusers` VALUES (1,'barak','barak1@gmail.com','1234',NULL),(2,'ari','ari1@gmail.com','12345',NULL),(3,'may','may1@gmail.com','123456',NULL),(4,'testing','test@gmail.com','test123',NULL),(5,'admin','admin1@gmail.com','admin123',NULL),(6,'Nurit','nurit.kassovitz1@gmail.com','1010',NULL),(7,'shay','shay@gmail.com','shay123',NULL),(10,'wow','wow@gmail.com','12345678',NULL),(11,'hello','hello1@gmail.com','111111111',NULL),(12,'ran','ran@gmail.com','ran123',NULL),(13,'sela','meyouhas@gmail.com','meyouhas',NULL),(14,'demo','demo@gmail.com','demo123',NULL);
 /*!40000 ALTER TABLE `siteusers` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-12-10 16:57:22
+-- Dump completed on 2024-01-07 14:42:04
